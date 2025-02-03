@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "bin": {
-    "fincli": "./src/index.js"
+    "finview": "./src/index.js"
   },
   "scripts": {
     "start": "node src/index.js"
   },
-  "homepage": "https://github.com/JustSouichi/fincli#readme",
+  "homepage": "https://github.com/JustSouichi/finview#readme",
   "keywords": [
     "financial-data",
     "stock-prices",

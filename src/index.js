@@ -7,13 +7,13 @@ const chalk = require('chalk').default || require('chalk');
 
 program
   .version('1.0.0')
-  .description('fincli: CLI tool for financial monitoring');
+  .description(': CLI tool for financial monitoring');
 
 program
   .command('hello')
   .description('Print a welcome message')
   .action(() => {
-    console.log(chalk.green('Welcome to fincli!'));
+    console.log(chalk.green('Welcome to !'));
   });
 
 program

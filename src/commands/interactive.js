@@ -21,7 +21,7 @@ async function interactiveMenu() {
   switch (answers.command) {
     case 'hello': {
       const chalk = require('chalk').default || require('chalk');
-      console.log(chalk.green('Welcome to fincli!'));
+      console.log(chalk.green('Welcome to !'));
       break;
     }
     case 'chart': {
