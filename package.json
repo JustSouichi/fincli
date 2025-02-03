@@ -8,10 +8,30 @@
   "scripts": {
     "start": "node src/index.js"
   },
-  "keywords": [],
+  "homepage": "https://github.com/JustSouichi/fincli#readme",
+  "keywords": [
+    "financial-data",
+    "stock-prices",
+    "market-trends",
+    "cli-tool",
+    "data-visualization",
+    "yahoo-finance",
+    "asciichart",
+    "web-scraping",
+    "stocks",
+    "financial-analysis",
+    "interactive-dashboard",
+    "real-time-data",
+    "portfolio-management",
+    "finance-cli",
+    "investment",
+    "financial-news",
+    "technical-indicators",
+    "financial-ratios"
+  ],
   "author": "Tommaso Bertocchi - JustSouichi",
   "license": "MIT",
-  "description": "",
+  "description": "A command-line tool for monitoring financial data and market trends in real-time directly from your terminal.",
   "dependencies": {
     "asciichart": "^1.5.25",
     "axios": "^1.7.9",
