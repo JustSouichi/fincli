@@ -13,7 +13,12 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
-    "chalk": "^5.4.1",
-    "commander": "^13.1.0"
+    "asciichart": "^1.5.25",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.11.0",
+    "chalk": "^4.1.2",
+    "commander": "^13.1.0",
+    "inquirer": "^12.4.1",
+    "yahoo-finance2": "^2.13.3"
   }
 }
