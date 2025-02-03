@@ -51,20 +51,14 @@ You will be presented with an interactive dashboard where you can:
 ### `fincli --help`
 Displays help information with all available commands and options.
 
-### `fincli market`
-Fetches and displays the current market status with trending stocks.
-
-### `fincli stocks <symbol>`
-Displays detailed stock data for a specific stock symbol (e.g., `fincli stocks AAPL` for Apple).
+### `fincli fundamentals <symbol>`
+Displays detailed stock data for a specific stock symbol (e.g., `fincli fundamentals AAPL` for Apple).
 
 ### `fincli chart <symbol>`
 Shows a chart with historical price data for the specified stock symbol.
 
 ### `fincli news`
 Fetches the latest financial news from top sources.
-
-### `fincli settings`
-Allows you to configure default settings, like the preferred stock symbols and refresh intervals. Settings are saved in `~/.fincli/config.json`.
 
 ## Configuration
 
