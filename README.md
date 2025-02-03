@@ -21,14 +21,16 @@
 Install finview globally using npm:
 
 ```bash
-npm install -g 
+npm install -g finview
 ```
 
 ## Chart
 <p align="center">
-<img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/chart.png"  alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/chart.png" alt="">
 </p>
+
 ## Dashboard
+
 <p align="center">
 <img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/dashboard.png"  alt="">
 </p>
