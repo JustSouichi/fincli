@@ -6,6 +6,12 @@
   <br><a href="https://github.com/JustSouichi/fincli">https://github.com/JustSouichi/fincli</a>
 </p>
 
+## Installation
+
+```bash
+npm install --g fincli
+```
+
 [![npm version](https://badge.fury.io/js/fincli.svg)](https://badge.fury.io/js/fincli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.com/JustSouichi/fincli.svg?branch=main)](https://travis-ci.com/JustSouichi/fincli)
