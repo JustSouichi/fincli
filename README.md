@@ -51,14 +51,51 @@ You will be presented with an interactive dashboard where you can:
 ### `fincli --help`
 Displays help information with all available commands and options.
 
-### `fincli fundamentals <symbol>`
-Displays detailed stock data for a specific stock symbol (e.g., `fincli fundamentals AAPL` for Apple).
+
+
+### `fincli stocks <symbol>`
+Displays detailed stock data for a specific stock symbol (e.g., `fincli stocks AAPL` for Apple).
 
 ### `fincli chart <symbol>`
 Shows a chart with historical price data for the specified stock symbol.
 
 ### `fincli news`
 Fetches the latest financial news from top sources.
+
+
+
+### `fincli fundamentals <symbol>`
+Displays key fundamental data for a given stock symbol, such as P/E ratio, earnings, and revenue. This command helps you analyze a company's financial health beyond just stock price data.
+
+### `fincli compare <symbol1> <symbol2>`
+Compares two stocks side by side, displaying relevant market data and key statistics for each.
+
+### `fincli dashboard <symbol>`
+Launches a comprehensive, interactive dashboard to monitor multiple stock symbols and their data in real time.
+
+### `fincli export <symbol>`
+Exports the stock data of a specified symbol to a CSV file for further analysis.
+
+### `fincli financials <symbol>`
+Displays a company’s financial statements, including income statement, balance sheet, and cash flow statement.
+
+### `fincli indicators <symbol>`
+Shows key financial indicators for the specified symbol, such as moving averages, RSI, and more.
+
+### `fincli portfolio <symbol1> <symbol2> <symbol3>`
+Displays your portfolio performance, showing the stocks you own and their respective prices.
+
+### `fincli quote <symbol>`
+Fetches the current quote for a specified stock symbol.
+
+### `fincli ratios <symbol>`
+Displays financial ratios for a given stock symbol, such as the P/E ratio, debt-to-equity ratio, etc.
+
+### `fincli watch <symbol>`
+Adds a stock symbol to your watchlist for easy tracking.
+
+### `fincli watchlist <symbol1> <symbol2> <symbol3>`
+Displays all the stocks currently on your watchlist, providing quick access to their market data.
 
 ## Configuration
 
