@@ -13,6 +13,8 @@
 [![GitHub stars](https://img.shields.io/github/stars/JustSouichi/fincli.svg?style=social&label=Stars)](https://github.com/JustSouichi/fincli/stargazers)
 [![Downloads](https://img.shields.io/npm/dt/fincli.svg)](https://www.npmjs.com/package/fincli)
 
+
+
 ## Installation
 
 Install **fincli** globally using npm:
@@ -20,6 +22,15 @@ Install **fincli** globally using npm:
 ```bash
 npm install -g fincli
 ```
+
+## Chart
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/chart.png" width="200" height="179" alt="">
+
+## Dashboard
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/dashboard.png" width="200" height="179" alt="">
+
+## Fundamentals
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/fundamentals.png" width="200" height="179" alt="">
 
 ## Features
 
