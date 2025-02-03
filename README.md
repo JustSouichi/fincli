@@ -4,14 +4,14 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/logo.svg" width="200" height="179" alt="">
   <br><strong>Command-line tool for monitoring financial data and market trends in real-time directly from your terminal.</strong>
-  <br><a href="https://github.com/JustSouichi/">GitHub Repository</a>
+  <br><a href="https://github.com/JustSouichi/finview">GitHub Repository</a>
 </p>
 
-[![npm version](https://badge.fury.io/js/.svg)](https://badge.fury.io/js/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub issues](https://img.shields.io/github/issues/JustSouichi/.svg)](https://github.com/JustSouichi//issues)
-[![GitHub stars](https://img.shields.io/github/stars/JustSouichi/.svg?style=social&label=Stars)](https://github.com/JustSouichi//stargazers)
-[![Downloads](https://img.shields.io/npm/dt/.svg)](https://www.npmjs.com/package/)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/JustSouichi/finview/.svg)](https://github.com/JustSouichi//issues)
+[![GitHub stars](https://img.shields.io/github/stars/JustSouichi/finview/.svg?style=social&label=Stars)](https://github.com/JustSouichi//stargazers)
+[![Downloads](https://img.shields.io/npm/dt/finview/.svg)](https://www.npmjs.com/package/)
 
 
 
@@ -25,16 +25,16 @@ npm install -g
 
 ## Chart
 <p align="center">
-<img src="https://raw.githubusercontent.com/JustSouichi//refs/heads/main/img/chart.png"  alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/chart.png"  alt="">
 </p>
 ## Dashboard
 <p align="center">
-<img src="https://raw.githubusercontent.com/JustSouichi//refs/heads/main/img/dashboard.png"  alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/dashboard.png"  alt="">
 </p>
 
 ## Fundamentals
 <p align="center">
-<img src="https://raw.githubusercontent.com/JustSouichi//refs/heads/main/img/fundamentals.png"  alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/img/fundamentals.png"  alt="">
 </p>
 
 ## Features
@@ -70,58 +70,58 @@ You will be presented with an interactive dashboard where you can:
 
 ## Commands
 
-### ` --help`
+### `finview --help`
 Displays help information with all available commands and options.
 
 
 
-### ` stocks <symbol>`
+### `finview stocks <symbol>`
 Displays detailed stock data for a specific stock symbol (e.g., ` stocks AAPL` for Apple).
 
-### ` chart <symbol>`
+### `finview chart <symbol>`
 Shows a chart with historical price data for the specified stock symbol.
 
-### ` news`
+### `finview news`
 Fetches the latest financial news from top sources.
 
 
 
-### ` fundamentals <symbol>`
+### `finview fundamentals <symbol>`
 Displays key fundamental data for a given stock symbol, such as P/E ratio, earnings, and revenue. This command helps you analyze a company's financial health beyond just stock price data.
 
-### ` compare <symbol1> <symbol2>`
+### `finview compare <symbol1> <symbol2>`
 Compares two stocks side by side, displaying relevant market data and key statistics for each.
 
-### ` dashboard <symbol>`
+### `finview dashboard <symbol>`
 Launches a comprehensive, interactive dashboard to monitor multiple stock symbols and their data in real time.
 
-### ` export <symbol>`
+### `finview export <symbol>`
 Exports the stock data of a specified symbol to a CSV file for further analysis.
 
-### ` financials <symbol>`
+### `finview financials <symbol>`
 Displays a company’s financial statements, including income statement, balance sheet, and cash flow statement.
 
-### ` indicators <symbol>`
+### `finview indicators <symbol>`
 Shows key financial indicators for the specified symbol, such as moving averages, RSI, and more.
 
-### ` portfolio <symbol1> <symbol2> <symbol3>`
+### `finview portfolio <symbol1> <symbol2> <symbol3>`
 Displays your portfolio performance, showing the stocks you own and their respective prices.
 
-### ` quote <symbol>`
+### `finview quote <symbol>`
 Fetches the current quote for a specified stock symbol.
 
-### ` ratios <symbol>`
+### `finview ratios <symbol>`
 Displays financial ratios for a given stock symbol, such as the P/E ratio, debt-to-equity ratio, etc.
 
-### ` watch <symbol>`
+### `finview watch <symbol>`
 Adds a stock symbol to your watchlist for easy tracking.
 
-### ` watchlist <symbol1> <symbol2> <symbol3>`
+### `finview watchlist <symbol1> <symbol2> <symbol3>`
 Displays all the stocks currently on your watchlist, providing quick access to their market data.
 
 ## Configuration
 
-You can customize **** by editing the configuration file located at `~/./config.json`. Here you can set default stock symbols, chart styles, and refresh rates.
+You can customize **** by editing the configuration file located at `~./config.json`. Here you can set default stock symbols, chart styles, and refresh rates.
 
 ### Example `config.json`
 ```json
@@ -143,7 +143,7 @@ We welcome contributions! If you'd like to improve ****, please fork the reposit
 
 ## License
 
-This project is licensed under the [MIT License](./LICENSE).
+This project is licensed under the [MIT License](https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/LICENSE).
 
 ## Author
 
