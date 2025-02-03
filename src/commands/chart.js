@@ -56,8 +56,6 @@ async function showChart(ticker, options = {}) {
   line.setData([series]);
   
   const tooltip = blessed.box({
-    top: 0,
-    left: 0,
     width: 'shrink',
     height: 'shrink',
     border: 'line',
@@ -68,40 +66,17 @@ async function showChart(ticker, options = {}) {
   screen.append(tooltip);
   
   line.on('mousemove', function(data) {
-    let widgetLeft = line.left || 0;
-    let widgetTop = line.top || 0;
-    let widgetWidth = line.width;
-    let widgetHeight = line.height;
-    
-    const relX = data.x - widgetLeft;
-    const relY = data.y - widgetTop;
-    if (relX < 0 || relX >= widgetWidth) {
-      tooltip.hide();
-      screen.render();
-      return;
-    }
-    
-    const index = Math.floor(relX / widgetWidth * xLabels.length);
+    const index = Math.floor(data.x / line.width * xLabels.length);
     if (index < 0 || index >= yData.length) {
       tooltip.hide();
       screen.render();
       return;
     }
     
-    const minPrice = Math.min(...yData);
-    const maxPrice = Math.max(...yData);
-    const normalized = (yData[index] - minPrice) / (maxPrice - minPrice) * (widgetHeight - 1);
-    const predictedY = widgetHeight - 1 - normalized;
-    
-    const threshold = 1;
-    if (Math.abs(relY - predictedY) <= threshold) {
-      tooltip.setContent(`Date: ${xLabels[index]}\nPrice: ${yData[index].toFixed(2)}`);
-      tooltip.left = data.x + 2;
-      tooltip.top = data.y - 1;
-      tooltip.show();
-    } else {
-      tooltip.hide();
-    }
+    tooltip.setContent(`Date: ${xLabels[index]}\nPrice: ${yData[index].toFixed(2)}`);
+    tooltip.left = Math.min(data.x + 2, screen.width - 10);
+    tooltip.top = Math.max(data.y - 1, 1);
+    tooltip.show();
     screen.render();
   });
   
