@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+const yahooFinance = require('yahoo-finance2').default;
+yahooFinance.suppressNotices(['yahooSurvey', 'ripHistorical']);
 
 const { program } = require('commander');
 const chalk = require('chalk').default || require('chalk');
@@ -109,6 +111,17 @@ program
     const { watchList } = require('./commands/watchlist');
     await watchList(tickers, Number(cmdObj.interval));
   });
+
+program
+  .command('dashboard <ticker>')
+  .option('--layout <layout>', 'Dashboard layout: side or bottom', 'side')
+  .option('--timeframe <timeframe>', 'Timeframe for data (1y, 5y, 10y)', '1y')
+  .description('Display a chart with financial data for a given ticker')
+  .action(async (ticker, cmdObj) => {
+    const { showDashboard } = require('./commands/dashboard');
+    await showDashboard(ticker, cmdObj);
+  });
+
 program
   .command('indicators <ticker>')
   .option('--timeframe <timeframe>', 'Timeframe for historical data (1y, 5y, 10y)', '1y')
