@@ -121,10 +121,6 @@ program
     await showDashboard(ticker, cmdObj);
   });
 
-
-
-
-
 program
   .command('indicators <ticker>')
   .option('--timeframe <timeframe>', 'Timeframe for historical data (1y, 5y, 10y)', '1y')
@@ -133,6 +129,19 @@ program
     const { getIndicators } = require('./commands/indicators');
     await getIndicators(ticker, cmdObj.timeframe);
   });
+
+  program
+  .command('fundamentals <ticker>')
+  .option('--chart', 'Show historical chart along with fundamental data', false)
+  .option('--timeframe <timeframe>', 'Timeframe for data (1y, 5y, 10y, all)', 'all')
+  .description('Display a dashboard with fundamental analysis: financial statements, key ratios, and optionally a historical chart')
+  .action(async (ticker, cmdObj) => {
+    const { showFundamentals } = require('./commands/fundamentals');
+    await showFundamentals(ticker, cmdObj);
+  });
+
+
+
 
 if (!process.argv.slice(2).length) {
   program.outputHelp();
