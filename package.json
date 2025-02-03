@@ -14,11 +14,15 @@
   "description": "",
   "dependencies": {
     "asciichart": "^1.5.25",
+    "axios": "^1.7.9",
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.11.0",
     "chalk": "^4.1.2",
+    "cheerio": "^1.0.0",
     "commander": "^13.1.0",
     "inquirer": "^12.4.1",
+    "puppeteer": "^24.1.1",
+    "yahoo-finance": "^0.3.8",
     "yahoo-finance2": "^2.13.3"
   }
 }

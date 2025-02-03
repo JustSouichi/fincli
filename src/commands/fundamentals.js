@@ -1,229 +1,102 @@
 const blessed = require('blessed');
 const contrib = require('blessed-contrib');
 const yahooFinance = require('yahoo-finance2').default;
-const os = require('os');
 
-async function showFundamentals(ticker, options = {}) {
-  // Opzione: --chart per mostrare anche il grafico storico
-  const showChart = options.chart || false;
-  // Se "all", recupera dati storici più lunghi (ad es. 10 anni)
-  const timeframe = options.timeframe || 'all'; 
+async function fetchFinancialData(ticker) {
+    console.log(`📊 Fetching financial data for ${ticker}...\n`);
 
-  // Recupera i dati fondamentali da Yahoo Finance
-  let incomeStatement, balanceSheet, cashFlow, keyStats;
-  try {
-    const summary = await yahooFinance.quoteSummary(ticker, {
-      modules: [
-        'incomeStatementHistory',
-        'balanceSheetHistory',
-        'cashflowStatementHistory',  // attenzione: tutto minuscolo "cashflowStatementHistory"
-        'defaultKeyStatistics'
-      ]
-    });
-    incomeStatement = summary.incomeStatementHistory?.incomeStatementHistory || [];
-    balanceSheet = summary.balanceSheetHistory?.balanceSheetHistory || [];
-    cashFlow = summary.cashflowStatementHistory?.cashflowStatementHistory || [];
-    keyStats = summary.defaultKeyStatistics || {};
-  } catch (error) {
-    console.error('Error fetching fundamental data:', error.message);
-    process.exit(1);
-  }
-
-  // Se richiesto, recupera anche dati storici per il grafico (ad esempio, il prezzo di chiusura)
-  let chartData = null;
-  let xLabels = [];
-  if (showChart) {
     try {
-      const startDate = timeframe === 'all' ? new Date(new Date().getFullYear() - 10, 0, 1)
-                                            : getStartDateFromTimeframe(timeframe);
-      const historical = await yahooFinance.historical(ticker, { period1: startDate, period2: new Date() });
-      historical.sort((a, b) => new Date(a.date) - new Date(b.date));
-      const desiredPoints = 50;
-      const totalPoints = historical.length;
-      const step = Math.max(1, Math.floor(totalPoints / desiredPoints));
-      const sampled = historical.filter((_, i) => i % step === 0);
-      // Per esempio, usiamo il prezzo di chiusura come dato da plottare
-      chartData = sampled.map(item => item.close);
-      xLabels = sampled.map(item => {
-        const d = new Date(item.date);
-        return d.toLocaleDateString();
-      });
+        const summary = await yahooFinance.quoteSummary(ticker, {
+            modules: [
+                'incomeStatementHistoryQuarterly',
+                'balanceSheetHistoryQuarterly',
+                'cashflowStatementHistoryQuarterly',
+                'defaultKeyStatistics',
+                'financialData'
+            ]
+        });
+
+        return summary;
     } catch (error) {
-      console.error('Error fetching chart data:', error.message);
-      // Se il grafico non va, prosegui senza di esso
+        console.error('❌ Error fetching data:', error.message);
+        process.exit(1);
     }
-  }
+}
 
-  // Calcola alcuni indici fondamentali
-  const ratios = calculateFundamentalRatios({ incomeStatement, balanceSheet, cashFlow, keyStats });
+function displayData(summary, ticker) {
+    const screen = blessed.screen({ smartCSR: true, title: `Fundamentals for ${ticker}` });
+    const grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
 
-  // Pulisce la console
-  if (os.platform() === 'win32') {
-    process.stdout.write('\x1Bc');
-  } else {
-    console.clear();
-  }
+    function parseDate(endDate) {
+        return endDate ? new Date(endDate).toLocaleDateString() : 'N/A';
+    }
 
-  // Crea lo screen e la grid per la dashboard
-  const screen = blessed.screen({ smartCSR: true, title: `Fundamentals for ${ticker}`, mouse: true });
-  const grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
+    function formatCurrency(num) {
+        return num ? `$${num.toLocaleString()}` : 'N/A';
+    }
 
-  let currentRow = 0;
-  // Se richiesto, mostra il grafico storico in alto
-  if (showChart && chartData && xLabels.length > 0) {
-    const chartWidget = grid.set(0, 0, 6, 12, contrib.line, {
-      label: `Historical Data for ${ticker}`,
-      style: { line: 'yellow', text: 'green', baseline: 'black' },
-      xLabelPadding: 3,
-      xPadding: 5
+    function formatPercentage(num) {
+        return num ? `${(num * 100).toFixed(2)}%` : 'N/A';
+    }
+
+    // 🟢 Income Statement
+    const incomeData = summary.incomeStatementHistoryQuarterly?.incomeStatementHistory.map(item => ([
+        parseDate(item.endDate),
+        formatCurrency(item.totalRevenue),
+        formatCurrency(item.netIncome)
+    ])) || [['N/A', 'N/A', 'N/A']];
+
+    const incomeTable = grid.set(0, 0, 4, 6, contrib.table, {
+        keys: false, label: 'Income Statement',
+        columnWidth: [12, 20, 20], columnSpacing: 1
     });
-    const series = { title: ticker, x: xLabels, y: chartData };
-    chartWidget.setData([series]);
-    currentRow = 6;
-  }
+    incomeTable.setData({ headers: ['Period', 'Revenue', 'Net Income'], data: incomeData });
 
-  // Funzione helper per gestire il parsing della data in modo robusto
-  function parseDate(endDate) {
-    if (!endDate) return 'N/A';
-    if (endDate.raw && typeof endDate.raw === 'number') {
-      return new Date(endDate.raw * 1000).toLocaleDateString();
-    } else if (endDate.fmt) {
-      const d = new Date(endDate.fmt);
-      return isNaN(d.getTime()) ? endDate.fmt : d.toLocaleDateString();
-    } else if (endDate.formatted) {
-      const d = new Date(endDate.formatted);
-      return isNaN(d.getTime()) ? endDate.formatted : d.toLocaleDateString();
-    }
-    return 'N/A';
-  }
+    // 🟡 Balance Sheet
+    const balanceData = summary.balanceSheetHistoryQuarterly?.balanceSheetStatements.map(item => ([
+        parseDate(item.endDate),
+        item.totalAssets ? formatCurrency(item.totalAssets) : 'N/A',
+        item.totalLiabilities ? formatCurrency(item.totalLiabilities) : 'N/A'
+    ])) || [['N/A', 'N/A', 'N/A']];
 
-  // Prepara i dati per la tabella del conto economico
-  const incomeData = incomeStatement.map(item => ([
-    parseDate(item.endDate),
-    item.totalRevenue ? formatNumber(item.totalRevenue) : 'N/A',
-    item.netIncome ? formatNumber(item.netIncome) : 'N/A',
-    item.costOfRevenue ? formatNumber(item.costOfRevenue) : 'N/A'
-  ]));
+    const balanceTable = grid.set(0, 6, 4, 6, contrib.table, {
+        keys: false, label: 'Balance Sheet',
+        columnWidth: [12, 20, 20], columnSpacing: 1
+    });
+    balanceTable.setData({ headers: ['Period', 'Assets', 'Liabilities'], data: balanceData });
 
-  const incomeTable = grid.set(currentRow, 0, 4, 6, contrib.table, {
-    keys: false,
-    fg: 'white',
-    label: 'Income Statement',
-    columnSpacing: 1,
-    columnWidth: [12, 16, 16, 16],
-    border: { type: 'line', fg: 'cyan' },
-    style: { header: { fg: 'yellow' }, cell: { fg: 'white' } }
-  });
-  incomeTable.setData({ headers: ['Period', 'Revenue', 'Net Income', 'Cost'], data: incomeData });
+    // 🔵 Cash Flow Statement
+    const cashFlowData = summary.cashflowStatementHistoryQuarterly?.cashflowStatements.map(item => ([
+        parseDate(item.endDate),
+        formatCurrency(item.netIncome)
+    ])) || [['N/A', 'N/A']];
 
-  // Tabella per lo stato patrimoniale
-  const balanceData = balanceSheet.map(item => ([
-    parseDate(item.endDate),
-    item.totalAssets ? formatNumber(item.totalAssets) : 'N/A',
-    item.totalLiab ? formatNumber(item.totalLiab) : 'N/A'
-  ]));
-  const balanceTable = grid.set(currentRow, 6, 4, 6, contrib.table, {
-    keys: false,
-    fg: 'white',
-    label: 'Balance Sheet',
-    columnSpacing: 1,
-    columnWidth: [12, 16, 16],
-    border: { type: 'line', fg: 'cyan' },
-    style: { header: { fg: 'yellow' }, cell: { fg: 'white' } }
-  });
-  balanceTable.setData({ headers: ['Period', 'Assets', 'Liabilities'], data: balanceData });
+    const cashFlowTable = grid.set(4, 0, 4, 6, contrib.table, {
+        keys: false, label: 'Cash Flow Statement',
+        columnWidth: [12, 20], columnSpacing: 1
+    });
+    cashFlowTable.setData({ headers: ['Period', 'Net Income'], data: cashFlowData });
 
-  // Tabella per il cash flow statement
-  const cashFlowData = cashFlow.map(item => ([
-    parseDate(item.endDate),
-    item.totalCashFromOperatingActivities ? formatNumber(item.totalCashFromOperatingActivities) : 'N/A',
-    item.capex ? formatNumber(item.capex) : 'N/A'
-  ]));
-  const cashFlowTable = grid.set(currentRow + 4, 0, 4, 12, contrib.table, {
-    keys: false,
-    fg: 'white',
-    label: 'Cash Flow Statement',
-    columnSpacing: 1,
-    columnWidth: [12, 16, 16],
-    border: { type: 'line', fg: 'cyan' },
-    style: { header: { fg: 'yellow' }, cell: { fg: 'white' } }
-  });
-  cashFlowTable.setData({ headers: ['Period', 'Ops Cash', 'CapEx'], data: cashFlowData });
+    // 🔴 Key Ratios
+    const ratios = [
+        ['Return on Assets (ROA)', formatPercentage(summary.financialData?.returnOnAssets)],
+        ['Return on Equity (ROE)', formatPercentage(summary.financialData?.returnOnEquity)],
+        ['Leverage', summary.financialData?.debtToEquity ? summary.financialData.debtToEquity.toFixed(2) : 'N/A']
+    ];
 
-  // Tabella per gli indici fondamentali
-  const ratiosBox = grid.set(currentRow + 8, 0, 4, 12, contrib.table, {
-    keys: false,
-    fg: 'white',
-    label: 'Key Ratios',
-    columnSpacing: 1,
-    columnWidth: [20, 20],
-    border: { type: 'line', fg: 'magenta' },
-    style: { header: { fg: 'yellow' }, cell: { fg: 'white' } }
-  });
-  const ratiosData = Object.entries(ratios).map(([key, value]) => ([key, value.toFixed(2)]));
-  ratiosBox.setData({ headers: ['Ratio', 'Value'], data: ratiosData });
+    const ratiosTable = grid.set(4, 6, 4, 6, contrib.table, {
+        keys: false, label: 'Key Ratios',
+        columnWidth: [25, 20], columnSpacing: 1
+    });
+    ratiosTable.setData({ headers: ['Ratio', 'Value'], data: ratios });
 
-  // Permette di uscire premendo Escape, q o Ctrl+C
-  screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
-  screen.render();
+    screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
+    screen.render();
 }
 
-function calculateFundamentalRatios({ incomeStatement, balanceSheet, cashFlow, keyStats }) {
-  let leverage = 0, roi = 0, ros = 0;
-  
-  if (balanceSheet.length > 0) {
-    const latestBalance = balanceSheet[0];
-    const totalDebt = latestBalance.totalLiab || 0;
-    const totalEquity = (latestBalance.totalAssets && latestBalance.totalLiab)
-      ? (latestBalance.totalAssets - latestBalance.totalLiab)
-      : 0;
-    if (totalEquity !== 0) {
-      leverage = totalDebt / totalEquity;
-    }
-  }
-  
-  if (incomeStatement.length > 0 && balanceSheet.length > 0) {
-    const latestIncome = incomeStatement[0];
-    const latestBalance = balanceSheet[0];
-    if (latestBalance.totalAssets) {
-      roi = latestIncome.netIncome / latestBalance.totalAssets;
-    }
-  }
-  
-  if (incomeStatement.length > 0) {
-    const latestIncome = incomeStatement[0];
-    if (latestIncome.totalRevenue) {
-      ros = latestIncome.netIncome / latestIncome.totalRevenue;
-    }
-  }
-  
-  return {
-    Leverage: leverage,
-    ROI: roi,
-    ROS: ros
-  };
-}
-
-function getStartDateFromTimeframe(timeframe) {
-  const now = new Date();
-  switch (timeframe) {
-    case '1y':
-      return new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
-    case '5y':
-      return new Date(now.getFullYear() - 5, now.getMonth(), now.getDate());
-    case '10y':
-      return new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
-    case 'all':
-      return new Date(now.getFullYear() - 10, 0, 1);
-    default:
-      return new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
-  }
-}
-
-function formatNumber(num) {
-  return typeof num === 'number'
-    ? num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })
-    : num;
+async function showFundamentals(ticker) {
+    const financialData = await fetchFinancialData(ticker);
+    displayData(financialData, ticker);
 }
 
 module.exports = { showFundamentals };
