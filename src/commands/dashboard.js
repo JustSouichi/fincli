@@ -202,6 +202,7 @@ function attachTooltip(line, xLabels, yData, screen) {
 }
 
 
+
 function getStartDateFromTimeframe(timeframe) {
   const now = new Date();
   switch (timeframe) {
