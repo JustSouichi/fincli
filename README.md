@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://jamiemason.github.io/syncpack/logo.svg" width="200" height="179" alt="">
   <br>Consistent dependency versions in large JavaScript Monorepos.
-  <br><a href="https://jamiemason.github.io/syncpack">https://jamiemason.github.io/syncpack</a>
+  <br><a href="https://github.com/JustSouichi/fincli">https://github.com/JustSouichi/fincli</a>
 </p>
 
 [![npm version](https://badge.fury.io/js/fincli.svg)](https://badge.fury.io/js/fincli)
