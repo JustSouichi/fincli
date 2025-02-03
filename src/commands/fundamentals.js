@@ -6,6 +6,14 @@ async function fetchFinancialData(ticker) {
     console.log(`📊 Fetching financial data for ${ticker}...\n`);
 
     try {
+
+        const balanceSheet = await yahooFinance.fundamentalsTimeSeries(ticker, {
+            period1: '2020-01-01',
+            period2: new Date().toISOString().split('T')[0], // Data di fine automatizzata
+            type: 'annual',
+            module: 'balance-sheet'
+        });
+
         const summary = await yahooFinance.quoteSummary(ticker, {
             modules: [
                 'incomeStatementHistoryQuarterly',
@@ -16,7 +24,7 @@ async function fetchFinancialData(ticker) {
             ]
         });
 
-        return summary;
+        return { ...summary, balanceSheet };
     } catch (error) {
         console.error('❌ Error fetching data:', error.message);
         process.exit(1);
@@ -52,18 +60,22 @@ function displayData(summary, ticker) {
     });
     incomeTable.setData({ headers: ['Period', 'Revenue', 'Net Income'], data: incomeData });
 
-    // 🟡 Balance Sheet
-    const balanceData = summary.balanceSheetHistoryQuarterly?.balanceSheetStatements.map(item => ([
-        parseDate(item.endDate),
-        item.totalAssets ? formatCurrency(item.totalAssets) : 'N/A',
-        item.totalLiabilities ? formatCurrency(item.totalLiabilities) : 'N/A'
-    ])) || [['N/A', 'N/A', 'N/A']];
+   // 🟡 Balance Sheet
+// 🟡 Balance Sheet (Usa fundamentalsTimeSeries)
+console.log("📊 Checking balance sheet data:", summary.balanceSheet);
 
-    const balanceTable = grid.set(0, 6, 4, 6, contrib.table, {
-        keys: false, label: 'Balance Sheet',
-        columnWidth: [12, 20, 20], columnSpacing: 1
-    });
-    balanceTable.setData({ headers: ['Period', 'Assets', 'Liabilities'], data: balanceData });
+const balanceData = summary.balanceSheet.map(item => ([
+    parseDate(item.date),
+    formatCurrency(item.totalAssets || 0),
+    formatCurrency(item.totalLiabilitiesNetMinorityInterest || 0)
+])) || [['N/A', 'N/A', 'N/A']];
+
+const balanceTable = grid.set(0, 6, 4, 6, contrib.table, {
+    keys: false, label: 'Balance Sheet',
+    columnWidth: [12, 20, 20], columnSpacing: 1
+});
+balanceTable.setData({ headers: ['Period', 'Assets', 'Liabilities'], data: balanceData });
+
 
     // 🔵 Cash Flow Statement
     const cashFlowData = summary.cashflowStatementHistoryQuarterly?.cashflowStatements.map(item => ([
