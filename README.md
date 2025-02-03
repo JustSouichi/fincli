@@ -1,7 +1,7 @@
 # fincli
 
 <p align="center">
-  <img src="https://jamiemason.github.io/syncpack/logo.svg" width="200" height="179" alt="">
+  <img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/logo.svg" width="200" height="179" alt="">
   <br>Consistent dependency versions in large JavaScript Monorepos.
   <br><a href="https://github.com/JustSouichi/fincli">https://github.com/JustSouichi/fincli</a>
 </p>
