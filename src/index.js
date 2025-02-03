@@ -115,12 +115,15 @@ program
   program
   .command('dashboard <ticker>')
   .option('--layout <layout>', 'Dashboard layout: side or bottom', 'side')
-  .option('--timeframe <timeframe>', 'Timeframe for data (1y, 5y, 10y)', '1y')
-  .description('Display a chart with financial data for a given ticker')
+  .option('--timeframe <timeframe>', 'Timeframe for data (1y, 5y, 10y)', '1y')  .description('Display a chart with financial data for a given ticker')
   .action(async (ticker, cmdObj) => {
     const { showDashboard } = require('./commands/dashboard');
     await showDashboard(ticker, cmdObj);
   });
+
+
+
+
 
 program
   .command('indicators <ticker>')
