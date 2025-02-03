@@ -9,15 +9,16 @@
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/JustSouichi/finview/refs/heads/main/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/JustSouichi/finview/.svg)](https://github.com/JustSouichi//issues)
-[![GitHub stars](https://img.shields.io/github/stars/JustSouichi/finview/.svg?style=social&label=Stars)](https://github.com/JustSouichi//stargazers)
-[![Downloads](https://img.shields.io/npm/dt/finview/.svg)](https://www.npmjs.com/package/)
+[![GitHub issues](https://img.shields.io/github/issues/JustSouichi/finview.svg)](https://github.com/JustSouichi/finview/issues)
+[![GitHub stars](https://img.shields.io/github/stars/JustSouichi/finview.svg?style=social&label=Stars)](https://github.com/JustSouichi/finview/stargazers)
+[![Downloads](https://img.shields.io/npm/dt/finview.svg)](https://www.npmjs.com/package/finview)
+
 
 
 
 ## Installation
 
-Install **** globally using npm:
+Install finview globally using npm:
 
 ```bash
 npm install -g 
@@ -40,7 +41,7 @@ npm install -g
 ## Features
 
 - **Interactive Terminal UI:**  
-  Built with [blessed](https://github.com/chjj/blessed) and [blessed-contrib](https://github.com/yaronn/blessed-contrib), **** provides a rich, interactive dashboard for viewing financial data right in the terminal.
+  Built with [blessed](https://github.com/chjj/blessed) and [blessed-contrib](https://github.com/yaronn/blessed-contrib), finview provides a rich, interactive dashboard for viewing financial data right in the terminal.
 
 - **Real-time Market Data:**  
   Fetch up-to-date stock prices, financial news, and market trends using [yahoo-finance](https://www.npmjs.com/package/yahoo-finance) and [yahoo-finance2](https://www.npmjs.com/package/yahoo-finance2).
@@ -59,7 +60,7 @@ npm install -g
 Once installed, simply run:
 
 ```bash
-
+finview
 ```
 
 You will be presented with an interactive dashboard where you can:
@@ -121,7 +122,7 @@ Displays all the stocks currently on your watchlist, providing quick access to t
 
 ## Configuration
 
-You can customize **** by editing the configuration file located at `~./config.json`. Here you can set default stock symbols, chart styles, and refresh rates.
+You can customize finview by editing the configuration file located at `~./config.json`. Here you can set default stock symbols, chart styles, and refresh rates.
 
 ### Example `config.json`
 ```json
@@ -134,7 +135,7 @@ You can customize **** by editing the configuration file located at `~./config.j
 
 ## Contributing
 
-We welcome contributions! If you'd like to improve ****, please fork the repository and submit a pull request. Before submitting, ensure that your changes follow the guidelines for coding standards and documentation.
+We welcome contributions! If you'd like to improve finview, please fork the repository and submit a pull request. Before submitting, ensure that your changes follow the guidelines for coding standards and documentation.
 
 1. Fork the repository
 2. Create a new branch for your feature or bug fix
