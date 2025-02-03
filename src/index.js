@@ -112,7 +112,7 @@ program
     await watchList(tickers, Number(cmdObj.interval));
   });
 
-program
+  program
   .command('dashboard <ticker>')
   .option('--layout <layout>', 'Dashboard layout: side or bottom', 'side')
   .option('--timeframe <timeframe>', 'Timeframe for data (1y, 5y, 10y)', '1y')

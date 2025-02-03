@@ -4,7 +4,13 @@ const yahooFinance = require('yahoo-finance2').default;
 const os = require('os');
 
 async function showDashboard(ticker, options = {}) {
-  const layout = options.layout || 'side'; // 'side' oppure 'bottom'
+  // Scegli il layout in modo responsive:
+  // Se l'utente specifica un layout, lo rispettiamo; altrimenti, in base alla larghezza del terminale.
+  let layout = options.layout || 'side';
+  if (process.stdout.columns < 100) {
+    layout = 'bottom';
+  }
+
   const timeframe = options.timeframe || '1y';
 
   // Recupera i dati storici per il grafico
@@ -33,8 +39,7 @@ async function showDashboard(ticker, options = {}) {
     financialData = [];
   }
 
-  // Ora che le chiamate alle API sono terminate e i log HTTPS sono stati stampati,
-  // puliamo la console per nasconderli.
+  // Ora che le chiamate alle API sono terminate, puliamo la console
   if (os.platform() === 'win32') {
     process.stdout.write('\x1Bc');
   } else {
@@ -54,30 +59,28 @@ async function showDashboard(ticker, options = {}) {
 
   // Prepara i dati per la tabella (Period, Revenue, Net Income)
   const tableRows = financialData.map(item => {
-    // Se esiste "raw", usiamolo per creare la data
-    let period;
-    if (item.endDate && typeof item.endDate.raw === 'number') {
-      period = new Date(item.endDate.raw * 1000).toLocaleDateString();
-    } else if (item.endDate && item.endDate.fmt) {
-      const d = new Date(item.endDate.fmt);
-      period = isNaN(d.getTime()) ? item.endDate.fmt : d.toLocaleDateString();
-    } else {
-      period = 'N/A';
+    let period = 'N/A';
+    if (item.endDate) {
+      if (typeof item.endDate.raw === 'number') {
+        period = new Date(item.endDate.raw * 1000).toLocaleDateString();
+      } else if (item.endDate.fmt) {
+        const d = new Date(item.endDate.fmt);
+        period = isNaN(d.getTime()) ? item.endDate.fmt : d.toLocaleDateString();
+      }
     }
     const revenue = item.totalRevenue ? formatNumber(item.totalRevenue) : 'N/A';
     const netIncomeVal = item.netIncome || item.operatingIncome;
     const netIncome = netIncomeVal ? formatNumber(netIncomeVal) : 'N/A';
     return [period, revenue, netIncome];
   });
-  
-  
 
   // Crea la schermata e la griglia usando blessed-contrib
   const screen = blessed.screen({ smartCSR: true, title: `Dashboard for ${ticker}` });
   const grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
 
+  // Se il layout è "side": grafico a sinistra (8 colonne), tabella a destra (4 colonne)
+  // Altrimenti, layout "bottom": grafico in alto (8 righe), tabella in basso (4 righe)
   if (layout === 'side') {
-    // Grafico a sinistra (8 colonne), tabella a destra (4 colonne)
     const line = grid.set(0, 0, 12, 8, contrib.line, {
       label: `Price Chart for ${ticker} (${timeframe})`,
       style: { line: 'yellow', text: 'green', baseline: 'black' },
@@ -99,7 +102,6 @@ async function showDashboard(ticker, options = {}) {
     });
     table.setData({ headers: ['Period', 'Revenue', 'Net Income'], data: tableRows });
   } else {
-    // Layout bottom: Grafico in alto (8 righe), tabella in basso (4 righe)
     const line = grid.set(0, 0, 8, 12, contrib.line, {
       label: `Price Chart for ${ticker} (${timeframe})`,
       style: { line: 'yellow', text: 'green', baseline: 'black' },
@@ -122,7 +124,12 @@ async function showDashboard(ticker, options = {}) {
     table.setData({ headers: ['Period', 'Revenue', 'Net Income'], data: tableRows });
   }
 
-  // Consente di uscire premendo Escape, q o Ctrl+C
+  // Rende responsive la dashboard: aggiorna lo schermo al resize del terminale
+  screen.on('resize', () => {
+    screen.render();
+  });
+
+  // Permette di uscire premendo Escape, q o Ctrl+C
   screen.key(['escape', 'q', 'C-c'], () => process.exit(0));
   screen.render();
 }
