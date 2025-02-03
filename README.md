@@ -78,13 +78,10 @@ Displays help information with all available commands and options.
 
 
 
-### `finview stocks <symbol>`
-Displays detailed stock data for a specific stock symbol (e.g., ` stocks AAPL` for Apple).
-
 ### `finview chart <symbol>`
 Shows a chart with historical price data for the specified stock symbol.
 
-### `finview news`
+### `finview news <symbol>`
 Fetches the latest financial news from top sources.
 
 
