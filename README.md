@@ -7,6 +7,13 @@
   <br><a href="https://github.com/JustSouichi/fincli">GitHub Repository</a>
 </p>
 
+[![npm version](https://badge.fury.io/js/fincli.svg)](https://badge.fury.io/js/fincli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.com/JustSouichi/fincli.svg?branch=main)](https://travis-ci.com/JustSouichi/fincli)
+[![GitHub issues](https://img.shields.io/github/issues/JustSouichi/fincli.svg)](https://github.com/JustSouichi/fincli/issues)
+[![GitHub stars](https://img.shields.io/github/stars/JustSouichi/fincli.svg?style=social&label=Stars)](https://github.com/JustSouichi/fincli/stargazers)
+[![Downloads](https://img.shields.io/npm/dt/fincli.svg)](https://www.npmjs.com/package/fincli)
+
 ## Installation
 
 Install **fincli** globally using npm:
