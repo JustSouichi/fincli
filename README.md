@@ -24,13 +24,13 @@ npm install -g fincli
 ```
 
 ## Chart
-<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/chart.png" width="200" height="179" alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/chart.png" width="500" height="400" alt="">
 
 ## Dashboard
-<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/dashboard.png" width="200" height="179" alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/dashboard.png" width="500" height="400" alt="">
 
 ## Fundamentals
-<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/fundamentals.png" width="200" height="179" alt="">
+<img src="https://raw.githubusercontent.com/JustSouichi/fincli/refs/heads/main/img/fundamentals.png" width="500" height="400" alt="">
 
 ## Features
 
